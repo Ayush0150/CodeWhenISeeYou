@@ -5,6 +5,10 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playSong = () => {
+    if (audioRef.current.currentTime === 0) {
+      audioRef.current.currentTime = 60;
+    }
+
     audioRef.current.play();
     setIsPlaying(true);
   };
@@ -14,6 +18,11 @@ function App() {
     setIsPlaying(false);
   };
 
+  const handleEnded = () => {
+    audioRef.current.currentTime = 60;
+    audioRef.current.play();
+  };
+
   return (
     <>
       <h1>My Portfolio</h1>
@@ -21,7 +30,7 @@ function App() {
       <audio
         ref={audioRef}
         src="/music/passionFruit.mp3"
-        onEnded={() => setIsPlaying(false)}
+        onEnded={handleEnded}
       />
 
       <button onClick={isPlaying ? pauseSong : playSong}>
